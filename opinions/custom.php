@@ -109,13 +109,9 @@ function opinions_banner_text($banner=null, $html=null)
 }
 
 // returns background image for banner
-function opinions_banner_image($record=null, $banner=null, $src =null)
+function opinions_banner_image($banner=null, $src =null)
 {
-    if (isset($record) && metadata($record, 'has thumbnail')) {
-        $imgTag=record_image($record, 'fullsize');
-        preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $imgTag, $result);
-        $src=array_pop($result);
-    } elseif (isset($banner)&&isset($banner[2])) {
+    if (isset($banner)&&isset($banner[2])) {
         $src = $banner[2];
     } elseif ($bg = get_theme_option('site_banner_image')) {
         $src='/files/theme_uploads/'.$bg;
@@ -552,7 +548,7 @@ function ob_secondary_nav($type='items', $collection_id=null)
         }
         if (plugin_is_active("Geolocation")) {
             $navArray[] = array(
-                'label' => __('%s Map', ob_item_label()),
+                'label' => __('%s Map', ob_item_label('plural')),
                 'uri' => url('geolocation/map/browse'));
         }
         $navArray[] = array(
@@ -640,13 +636,19 @@ function ob_sort_links($type='items', $html=null)
     } elseif ($type == 'search') {
         $sortLinks[__('Type')] = 'record_type';
         $sortLinks[__('Title')] = 'title';
+    } elseif ($type == 'tags') {
+        $sortLinks[__('Count')] = 'count';
+        $sortLinks[__('Name')] = 'name';
+    } elseif ($type == 'exhibit-tags') {
+        $sortLinks[__('Count')] = 'count';
+        $sortLinks[__('Name')] = 'name';
     } else {
         $sortLinks[__('Title')] = 'Dublin Core,Title';
         $sortLinks[__('Date Added')] = 'added';
     }
     $html .= '<div id="sort-links" class="sort-'.$type.'">';
-    $html .= '<span class="sort-label">'.__('Sort by: ').'</span>';
-    $html .= browse_sort_links($sortLinks);
+    $html .= ($type !== 'none') ? '<span class="sort-label">'.__('Sort by: ').'</span>' : null;
+    $html .= ($type !== 'none') ? browse_sort_links($sortLinks) : '<ul id="sort-links-list"><li></li></li>';
     $html .= '</div>';
 
     return $html;
@@ -790,31 +792,26 @@ function ob_item_image($item = null, $html = null)
     return $html;
 }
 
+// get the SRC from an IMG tag
+function opinions_record_image_src($record=null, $size='fullsize', $src=null)
+{
+    if ($record && metadata($record, 'has thumbnail')) {
+        $imgTag = record_image($record, $size);
+        preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $imgTag, $result);
+        $src=array_pop($result);
+    }
+    return $src;
+}
+
 // returns item metadata card for browse views, etc
 // set $append_plugin true to enable fire_plugin_hook
 // some plugins append code that disrupts certain types of layout (grid, flex, etc)
 function ob_item_card($item=null, $view=null, $append_plugin=false, $html=null)
 {
     if ($item) {
-        $html .= '<div class="item hentry">';
-        $html .= '<h2>'.link_to_item(null, array('class' => 'permalink')).'</h2>';
-        $html .= '<div class="item-meta">';
-        $html .= '<div class="item-img">';
-        $html .= link_to_item(ob_item_image($item));
-        $html .= '</div>';
+        $html .= '<div class="item hentry" style="background-image:url('.opinions_record_image_src($item).')">';
+        $html .= link_to_item('<h2>'.metadata($item, 'display_title').'</h2>', array('class' => 'permalink'));
 
-
-        $html .= '<div class="item-description">';
-        $html .= ob_item_description($item, 250);
-        $html .= '</div>';
-
-        if (metadata('item', 'has tags')) {
-            $html .= '<div class="tags">';
-            $html .= '<p><strong>'.__('Tags').':</strong> '.tag_string('items').'</p>';
-            $html .= '</div>';
-        }
-
-        $html .= '</div>';
         if ($append_plugin && $view) {
             fire_plugin_hook('public_items_browse_each', array('view' => $view, 'item' => $item));
         }
@@ -824,20 +821,16 @@ function ob_item_card($item=null, $view=null, $append_plugin=false, $html=null)
 }
 
 // returns collection metadata card for browse views, etc
-function ob_collection_card($collection=null, $view=null, $html=null)
+function ob_collection_card($collection=null, $view=null, $src=null, $html=null)
 {
     if ($collection) {
-        $html .= '<div class="collection hentry">';
-        $html .= '<h2>'.link_to_collection().'</h2>';
-        if ($collectionImage = record_image('collection')) {
-            $html .= link_to_collection($collectionImage, array('class' => 'image'));
+        if ($imgTag = record_image($collection, 'fullsize')) {
+            preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $imgTag, $result);
+            $src=array_pop($result);
         }
+        $html .= '<div class="collection hentry" style="background-image:url('.$src.')">';
+        $html .= link_to_collection('<h2>'.metadata($collection, 'display_title').'</h2>', array('class' => 'permalink'));
 
-        if (metadata('collection', array('Dublin Core', 'Description'))) {
-            $html .= '<div class="collection-description">';
-            $html .= metadata('collection', array('Dublin Core', 'Description'), array('snippet' => 250));
-            $html .= '</div>';
-        }
 
         if ($view) {
             $html .= fire_plugin_hook('public_collections_browse_each', array('view' => $view, 'collection' => $collection));
@@ -849,23 +842,19 @@ function ob_collection_card($collection=null, $view=null, $html=null)
 }
 
 // returns exhibit metadata card for browse views, etc.
-function ob_exhibit_card($exhibit=null, $view=null, $html=null)
+function ob_exhibit_card($exhibit=null, $view=null, $src=null, $html=null)
 {
-    $html .= '<div class="exhibit hentry">';
-    $html .= '<h2>'.link_to_exhibit().'</h2>';
-    if ($exhibitImage = record_image($exhibit)) {
-        $html .= exhibit_builder_link_to_exhibit($exhibit, $exhibitImage, array('class' => 'image'));
-    }
-    if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))) {
-        $html .= '<div class="exhibit-description">';
-        $html .= $exhibitDescription;
-        $html .= ' </div>';
-    }
-    if ($exhibitTags = tag_string('exhibit', 'exhibits')) {
-        $html .= '<p class="tags">'.$exhibitTags.'</p>';
-    }
-    $html .= '</div>';
+    if ($exhibit) {
+        if ($imgTag = record_image($exhibit, 'fullsize')) {
+            preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $imgTag, $result);
+            $src=array_pop($result);
+        }
 
+        $html .= '<div class="collection hentry" style="background-image:url('.$src.')">';
+        $html .= exhibit_builder_link_to_exhibit($exhibit, '<h2>'.metadata($exhibit, 'title').'</h2>', array('class' => 'permalink'));
+
+        $html .= '</div>';
+    }
     return $html;
 }
 

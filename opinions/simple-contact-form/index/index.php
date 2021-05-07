@@ -1,5 +1,9 @@
 <?php echo head(array('banner'=>array(html_escape(get_option('simple_contact_form_contact_page_title')),null,null))); ?>
-<h1><?php echo html_escape(get_option('simple_contact_form_contact_page_title')); ?></h1>
+
+<!-- Title -->
+<div id="item-title">
+    <h1><?php echo html_escape(get_option('simple_contact_form_contact_page_title')); ?></h1>
+</div>
 <div id="primary-content">
     <div id="simple-contact">
         <div id="form-instructions">

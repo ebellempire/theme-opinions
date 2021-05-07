@@ -1,5 +1,5 @@
 <?php
-$pageTitle = __('Browse Collections');
+$pageTitle = __('All Collections');
 echo head(array('title' => $pageTitle, 'bodyclass' => 'collections browse', 'banner'=>array($pageTitle,__('%s total', $total_results))));
 ?>
 
@@ -10,7 +10,7 @@ echo head(array('title' => $pageTitle, 'bodyclass' => 'collections browse', 'ban
 <?php echo ob_sort_links('collections');?>
 
 <div id="primary-content">
-     <?php
+    <?php
      if ($total_results) {
          foreach (loop('collections') as $collection) {
              echo ob_collection_card($collection, get_view());

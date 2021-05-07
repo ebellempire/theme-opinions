@@ -1,5 +1,8 @@
 <?php
-$title = __('Browse Exhibits');
+$title = __('All Exhibits');
+if ($_GET["tags"]) {
+    $title = __('Exhibit Results');
+}
 echo head(array('title' => $title, 'bodyclass' => 'exhibits browse','banner'=>array($title,__('%s total', $total_results))));
 ?>
 

@@ -1,7 +1,7 @@
 <?php
 queue_css_file('geolocation-items-map');
 
-$title = __('%s Map', ob_item_label());
+$title = __('%s Map', ob_item_label('plural'));
 echo head(array(
     'title' => $title,
     'bodyclass' => 'map browse',
@@ -10,8 +10,12 @@ echo head(array(
 
 <?php echo ob_secondary_nav(); ?>
 
-<?php echo item_search_filters(); ?>
-<?php echo pagination_links();?>
+<?php echo ob_sort_links('none');?>
+
+<!-- Title -->
+<div id="item-title">
+    <h1><?php echo $title; ?></h1>
+</div>
 
 <div id="primary-content">
     <div id="geolocation-browse">

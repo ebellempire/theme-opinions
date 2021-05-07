@@ -4,11 +4,16 @@ echo head(array('title' => $pageTitle, 'bodyclass' => 'search','banner'=>array($
 $searchRecordTypes = get_search_record_types();
 ?>
 
-<?php echo search_filters(); ?>
-
 <?php echo ob_secondary_nav('search'); ?>
 
+<?php echo search_filters(); ?>
+
 <?php echo ob_sort_links('search');?>
+
+<!-- Title -->
+<div id="item-title">
+    <h1><?php echo $pageTitle; ?></h1>
+</div>
 
 <div id="primary-content">
     <?php

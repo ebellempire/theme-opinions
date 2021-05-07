@@ -1,6 +1,6 @@
 <?php
 $title = metadata('item', 'display_title');
-echo head(array('title' => $title, 'bodyclass' => 'items show','item'=>$item,'banner'=>array(metadata($item, 'rich_title', array('no_escape' => true)),ob_byline($item))));
+echo head(array('title' => $title, 'bodyclass' => 'items show','item'=>$item,'banner'=>array(metadata($item, 'rich_title', array('no_escape' => true)),ob_byline($item),opinions_record_image_src($item))));
 ?>
 
 <!-- Title -->

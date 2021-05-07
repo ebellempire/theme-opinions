@@ -1,3 +1,4 @@
+    </div>
     </article>
 
     <footer role="contentinfo">

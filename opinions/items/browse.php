@@ -1,13 +1,22 @@
 <?php
-$pageTitle = __('Browse %s', ob_item_label('plural'));
+$pageTitle = __('All %s', ob_item_label('plural'));
+$filters = item_search_filters();
+if ($filters) {
+    $pageTitle = __('%s Results', ob_item_label());
+}
 echo head(array('title' => $pageTitle, 'bodyclass' => 'items browse', 'banner'=>array($pageTitle,__('%s total', $total_results))));
 ?>
 
-<?php echo item_search_filters(); ?>
-
 <?php echo ob_secondary_nav(); ?>
 
+<?php echo $filters; ?>
+
 <?php echo ob_sort_links();?>
+
+<!-- Title -->
+<div id="item-title">
+    <h1><?php echo $pageTitle ?></h1>
+</div>
 
 <div id="primary-content">
     <?php
