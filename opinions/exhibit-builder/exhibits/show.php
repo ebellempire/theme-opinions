@@ -11,7 +11,7 @@ echo head(array(
     'banner'=>array(metadata('exhibit', 'title'),metadata('exhibit_page', 'title'),$img_path)));
 ?>
 
-<div id="exhibit-title">
+<div id="page-title">
     <h1><span class="exhibit-page"><?php echo metadata('exhibit_page', 'title'); ?></span></h1>
 </div>
 
@@ -19,12 +19,14 @@ echo head(array(
     <div id="exhibit-blocks">
         <?php exhibit_builder_render_exhibit_page(); ?>
     </div>
-    <nav id="exhibit-pages">
+    <nav id="exhibit-pages" style="background-image:url(<?php echo $img_path;?>)">
         <?php
         // Put the (linked) summary page in the nav list
         if ($exhibit->use_summary_page) {
-            echo '<h4 class="exhibit-summary-link">'.exhibit_builder_link_to_exhibit($exhibit).'</h4>';
+            echo '<div class="inner">';
+            echo '<h3 class="exhibit-summary-link">'.exhibit_builder_link_to_exhibit($exhibit, __('Exhibit Summary')).'</h3>';
             echo exhibit_builder_page_tree($exhibit, $exhibit_page);
+            echo '</div>';
         } else {
             echo exhibit_builder_page_tree($exhibit, $exhibit_page);
         }?>

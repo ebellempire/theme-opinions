@@ -5,7 +5,7 @@ echo head(array('title' => $pageTitle,'banner'=>array($pageTitle,null)));
 <?php echo flash(); ?>
 
 <!-- Title -->
-<div id="error-title">
+<div id="page-title">
     <h1><?php echo $pageTitle; ?></h1>
 </div>
 

@@ -3,7 +3,7 @@ $pageTitle = __('404 Page Not Found');
 echo head(array('title' => $pageTitle,'banner'=>array($pageTitle,null)));
 ?>
 <!-- Title -->
-<div id="error-title">
+<div id="page-title">
     <h1><?php echo $pageTitle; ?></h1>
 </div>
 

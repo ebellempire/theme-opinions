@@ -32,7 +32,7 @@ enableContributionAjaxForm( <?php echo js_escape(url($contributionPath.'/type-fo
 
 
 <!-- Title -->
-<div id="contribution-title">
+<div id="page-title">
     <h1><?php echo $head['title']; ?></h1>
 </div>
 

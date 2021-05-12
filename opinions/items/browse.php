@@ -14,7 +14,7 @@ echo head(array('title' => $pageTitle, 'bodyclass' => 'items browse', 'banner'=>
 <?php echo ob_sort_links();?>
 
 <!-- Title -->
-<div id="item-title">
+<div id="page-title">
     <h1><?php echo $pageTitle ?></h1>
 </div>
 

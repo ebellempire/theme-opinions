@@ -7,7 +7,7 @@ echo head(array(
 <?php echo flash(); ?>
 
 <!-- Title -->
-<div id="contribution-title">
+<div id="page-title">
     <h1><?php echo $pageTitle;?> <?php echo __('(%s total)', $total_results); ?></h1>
 </div>
 

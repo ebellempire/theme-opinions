@@ -4,63 +4,10 @@
 function opinions_configured_css($css=null)
 {
     if ($primary=get_theme_option('primary_color')) {
-        $css .= 'a{
-            color:'.$primary.';
-        }
-        .items-nav.navigation.secondary-nav .navigation li.active{
-            border-bottom-color:'.$primary.';
-        }
-        .button.button-primary, button.button-primary, input[type="submit"].button-primary, input[type="reset"].button-primary, input[type="button"].button-primary{
-            border-color:'.$primary.';
-            background-color:'.$primary.';
-        }
-        .popular a,
-        .popular a:visited,
-        .v-popular a,
-        .v-popular a:visited,
-        .vv-popular a,
-        .vv-popular a:visited {
-          color:'.$primary.';
-        }
-        .vvv-popular a,
-        .vvv-popular a:visited,
-        .vvvv-popular a,
-        .vvvv-popular a:visited {
-          color:'.$primary.';
-        }';
+        $css .= 'a{color:'.$primary.';}.items-nav.navigation.secondary-nav .navigation li.active{border-bottom-color:'.$primary.';}.button.button-primary, button.button-primary, input[type="submit"].button-primary, input[type="reset"].button-primary, input[type="button"].button-primary{border-color:'.$primary.';background-color:'.$primary.';}.popular a,.popular a:visited,.v-popular a,.v-popular a:visited,.vv-popular a,.vv-popular a:visited {color:'.$primary.';}.vvv-popular a,.vvv-popular a:visited,.vvvv-popular a,.vvvv-popular a:visited {color:'.$primary.';}';
     }
     if ($secondary=get_theme_option('secondary_color')) {
-        $css .= 'a:hover{
-            color:'.$secondary.';
-        }
-        .button.button-primary:hover, button.button-primary:hover, input[type="submit"].button-primary:hover, input[type="reset"].button-primary:hover, input[type="button"].button-primary:hover, .button.button-primary:focus, button.button-primary:focus, input[type="submit"].button-primary:focus, input[type="reset"].button-primary:focus, input[type="button"].button-primary:focus{
-            border-color:'.$secondary.';
-            background-color:'.$secondary.';
-        }
-        input[type="email"]:focus,
-        input[type="number"]:focus,
-        input[type="search"]:focus,
-        input[type="text"]:focus,
-        input[type="tel"]:focus,
-        input[type="url"]:focus,
-        input[type="password"]:focus,
-        textarea:focus,
-        select:focus {
-          border-color:'.$secondary.';
-        }
-        footer .icon:hover {
-              fill:'.$secondary.';
-        }
-        .vvvvv-popular a,
-        .vvvvv-popular a:visited,
-        .vvvvvv-popular a,
-        .vvvvvv-popular a:visited,
-        .vvvvvvv-popular a,
-        .vvvvvvv-popular a:visited,
-        .vvvvvvvv-popular a,
-        .vvvvvvvv-popular a:visited {
-          color:'.$secondary.';
-        }';
+        $css .= 'a:hover{color:'.$secondary.';}.button.button-primary:hover, button.button-primary:hover, input[type="submit"].button-primary:hover, input[type="reset"].button-primary:hover, input[type="button"].button-primary:hover, .button.button-primary:focus, button.button-primary:focus, input[type="submit"].button-primary:focus, input[type="reset"].button-primary:focus, input[type="button"].button-primary:focus{border-color:'.$secondary.';background-color:'.$secondary.';}input[type="email"]:focus,input[type="number"]:focus,input[type="search"]:focus,input[type="text"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,textarea:focus,select:focus {border-color:'.$secondary.';}footer .icon:hover {fill:'.$secondary.';}.vvvvv-popular a,.vvvvv-popular a:visited,.vvvvvv-popular a,.vvvvvv-popular a:visited,.vvvvvvv-popular a,.vvvvvvv-popular a:visited,.vvvvvvvv-popular a,.vvvvvvvv-popular a:visited {color:'.$secondary.';}';
     }
     return $css ? '<style>'.$css.'</style>' : null;
 }
@@ -402,13 +349,15 @@ function ob_cta_block($html = null)
     $text = get_theme_option('cta_text');
     $label = get_theme_option('cta_button_label');
     $target = get_theme_option('cta_target') ? 'target="_blank"' : null;
+    $bg = get_theme_option('site_banner_image');
+    $bgsrc = $bg ? '/files/theme_uploads/'.$bg : null;
 
     if ($url && $label) {
-        $html .= '<aside id="cta">';
+        $html .= '<aside id="cta" style="background-image:url('.$bgsrc.');"><div class="inner">';
         $html .= '<h2>'.$heading.'</h2>';
         $html .= '<p>'.$text.'</p>';
         $html .= '<a class="button button-primary" href="'.$url.'" '.$target.'>'.$label.'</a>';
-        $html .= '</aside>';
+        $html .= '</div></aside>';
     }
 
     return $html;
@@ -539,27 +488,36 @@ function ob_secondary_nav($type='items', $collection_id=null)
         if (get_theme_option('featured_secondary_nav') == 1) {
             $navArray[] = array(
                  'label' => ob_featured_item_label('plural'),
-                 'uri' => url('items/browse?featured=1'));
+                 'uri' => url('items/browse?featured=1'),
+                 );
         }
         if (total_records('Tag')) {
             $navArray[] = array(
                 'label' => __('%s Tags', ob_item_label()),
-                'uri' => url('items/tags'));
+                'uri' => url('items/tags'),
+            );
         }
         if (plugin_is_active("Geolocation")) {
             $navArray[] = array(
                 'label' => __('%s Map', ob_item_label('plural')),
-                'uri' => url('geolocation/map/browse'));
+                'uri' => url('geolocation/map/browse'),
+            );
         }
         $navArray[] = array(
             'label' => __('%s Search', ob_item_label()),
-            'uri' => url('items/search'));
+            'uri' => url('items/search'),
+        );
         if ($type=="search") {
             $navArray[] = array(
                 'label' => __('Site Search'),
-                'uri' => url('search'));
+                'uri' => url('search'),
+            );
         }
-        return '<nav class="items-nav navigation secondary-nav">'.public_nav_items($navArray).'</nav>';
+        // is there going to be more than one <a> with the "active" class?
+        // if, so we'll update the container class and rewrite all the styles to accommodate
+        $output=public_nav_items($navArray);
+        $dupeClass = (substr_count($output, 'class="active"', 0) > 1) ? ' duplicate-actives' : null;
+        return '<nav class="items-nav navigation secondary-nav'.$dupeClass.'">'.$output.'</nav>';
     } elseif (($type == 'collection') && (is_int($collection_id))) {
         $navArray = array(array(
             'label' =>__('Recent %s', ob_item_label('plural')),
@@ -581,20 +539,32 @@ function ob_secondary_nav($type='items', $collection_id=null)
                 'uri' => url('collections/browse?featured=1'),
             );
         }
-
-        return '<nav class="items-nav navigation secondary-nav">'.public_nav_items($navArray).'</nav>';
+        // is there going to be more than one <a> with the "active" class?
+        // if, so we'll update the container class and rewrite all the styles to accommodate
+        $output=public_nav_items($navArray);
+        $dupeClass = (substr_count($output, 'class="active"', 0) > 1) ? ' duplicate-actives' : null;
+        return '<nav class="items-nav navigation secondary-nav'.$dupeClass.'">'.$output.'</nav>';
     } elseif ($type == 'exhibits') {
         $navArray = array(
             array(
                 'label' => __('All Exhibits'),
                 'uri' => url('exhibits')
-            ),
-            array(
+            ));
+        if (get_theme_option('featured_secondary_nav') == 1) {
+            $navArray[]  = array(
+                    'label' =>__('Featured Exhibits'),
+                    'uri' => url('exhibits?featured=1')
+                );
+        }
+        $navArray[] = array(
                 'label' => __('Exhibit Tags'),
                 'uri' => url('exhibits/tags')
-            )
-        );
-        return '<nav class="items-nav navigation secondary-nav">'.public_nav_items($navArray).'</nav>';
+            );
+        // is there going to be more than one <a> with the "active" class?
+        // if, so we'll update the container class and rewrite all the styles to accommodate
+        $output=public_nav_items($navArray);
+        $dupeClass = (substr_count($output, 'class="active"', 0) > 1) ? ' duplicate-actives' : null;
+        return '<nav class="items-nav navigation secondary-nav'.$dupeClass.'">'.$output.'</nav>';
     } else {
         return null;
     }
@@ -738,7 +708,7 @@ function ob_item_image($item = null, $html = null)
     if ($item) {
         if (metadata($item, 'has thumbnail')) {
             // if there is a thumbnail
-            $html .= item_image();
+            $html .= item_image('fullsize');
         } elseif (metadata($item, 'has files')) {
             // if there is a file but no thumbnail (e.g. audio)
             $html .= item_image(); // e.g. images/fallback-audio.png
@@ -792,7 +762,17 @@ function ob_item_image($item = null, $html = null)
     return $html;
 }
 
-// get the SRC from an IMG tag
+// get the SRC from any IMG tag
+function opinions_get_src_from_tag($imgTag = null, $src=null)
+{
+    if ($imgTag) {
+        preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $imgTag, $result);
+        $src=array_pop($result);
+    }
+    return $src;
+}
+
+// get the SRC from an item IMG tag
 function opinions_record_image_src($record=null, $size='fullsize', $src=null)
 {
     if ($record && metadata($record, 'has thumbnail')) {
@@ -873,12 +853,12 @@ function ob_search_record_card($searchText=null, $view=null, $html=null)
 
     switch ($recordType) {
         case 'Item':
-        $recordImage = ob_item_image($record);
+        $recordImage = ob_item_image($record, 'fullsize');
         $recordText = ob_item_description($record, true, 250);
         break;
 
         case 'Collection':
-        $recordImage = record_image($recordType);
+        $recordImage = record_image($recordType, 'fullsize');
         $recordText = metadata($record, array('Dublin Core', 'Description'), array('snippet'=>250));
         break;
 
@@ -886,12 +866,12 @@ function ob_search_record_card($searchText=null, $view=null, $html=null)
         if (substr($recordTitle, 0, 4) === "http") {
             $recordTitle = '['.__('Untitled').']';
         }
-        $recordImage = record_image($recordType);
+        $recordImage = record_image($recordType, 'fullsize');
         $recordText = __('Appears in %s', ob_item_label()).': '.link_to_item(null, array(), 'show', $record->getItem());
         break;
 
         case 'Exhibit':
-        $recordImage = record_image($recordType);
+        $recordImage = record_image($recordType, 'fullsize');
         $recordText = metadata($record, 'description', array('no_escape' => true, 'snippet'=>250));
         break;
 
@@ -905,25 +885,29 @@ function ob_search_record_card($searchText=null, $view=null, $html=null)
         break;
 
         default:
-        $recordImage = record_image($recordType);
+        $recordImage = record_image($recordType, 'fullsize');
     }
 
-    $html .= '<div class="search hentry '.$typeClass.'">';
-    $html .= '<div class="search-record-type">'.$typeLabel.'</div>';
-    $html .= '<h2><a href="'.record_url($record, 'show').'">'.$recordTitle.'</a></h2>';
-    $html .= $recordImage ? link_to($record, 'show', $recordImage, array('class' => 'search-image')) : null;
-    $html .= '<div class="search-description">'.($recordText ? $recordText : __('Preview text unavailable.')).'</div>';
+    // $html .= '<div class="search hentry '.$typeClass.'">';
+    // $html .= '<div class="search-record-type">'.$typeLabel.'</div>';
+    // $html .= '<h2><a href="'.record_url($record, 'show').'">'.$recordTitle.'</a></h2>';
+    // $html .= $recordImage ? link_to($record, 'show', $recordImage, array('class' => 'search-image')) : null;
+    // $html .= '<div class="search-description">'.($recordText ? $recordText : __('Preview text unavailable.')).'</div>';
+    // $html .= '</div>';
+
+    $html .= '<div class="search hentry" style="background-image:url('.opinions_get_src_from_tag($recordImage).')">';
+    $html .= '<a href="'.record_url($record, 'show').'"><span class="type '.$typeClass.'">'.$typeLabel.' </span><h2>'.$recordTitle.'</h2></a>';
     $html .= '</div>';
 
     return $html;
 }
 
 // returns full metadata record with or without markup for interactive toggle state
-function ob_all_metadata($record =null, $show=1, $html=null)
+function ob_all_metadata($record =null, $alwaysShow=1, $output_formats=0, $html=null)
 {
-    $html .= '<div data-button-label="'.__('View Additional Details').'" data-button-label-hide="'.__('Hide Additional Details').'" id="full-metadata-record" class="'.($show == 1 ? 'static' : 'interactive').'"><div class="meta-container-inner">';
+    $html .= '<div data-button-label="'.__('View Additional Details').'" data-button-label-hide="'.__('Hide Additional Details').'" id="full-metadata-record" class="'.($alwaysShow == 1 ? 'static' : 'interactive').'"><div class="meta-container-inner">';
     $html .= all_element_texts($record, array('show_element_set_headings'=>false));
-    $html .= ob_output_formats($record);
+    $html .= $output_formats ? ob_output_formats($record) : null;
     $html .= '</div></div>';
     return $html;
 }

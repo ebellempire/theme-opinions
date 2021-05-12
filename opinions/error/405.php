@@ -3,7 +3,7 @@ $pageTitle = __('405 Method Not Allowed');
 echo head(array('title' => $pageTitle,'banner'=>array($pageTitle,null)));
 ?>
 <!-- Title -->
-<div id="error-title">
+<div id="page-title">
     <h1><?php echo $pageTitle; ?></h1>
 </div>
 

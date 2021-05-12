@@ -4,7 +4,7 @@ echo head(array('title' => $title, 'bodyclass' => 'items show','item'=>$item,'ba
 ?>
 
 <!-- Title -->
-<div id="item-title">
+<div id="page-title">
     <h1><?php echo metadata($item, 'rich_title', array('no_escape' => true)); ?></h1>
 </div>
 

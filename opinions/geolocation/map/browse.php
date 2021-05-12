@@ -13,7 +13,7 @@ echo head(array(
 <?php echo ob_sort_links('none');?>
 
 <!-- Title -->
-<div id="item-title">
+<div id="page-title">
     <h1><?php echo $title; ?></h1>
 </div>
 

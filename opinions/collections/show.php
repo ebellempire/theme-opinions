@@ -14,7 +14,7 @@ if ($recordimg) {
 <?php echo head(array('title' => $collectionTitle, 'bodyclass' => 'collections show','collection'=>$collection,'banner'=>array($collectionTitle,$total.' '.ob_item_label('plural'),$src))); ?>
 
 <!-- Title -->
-<div id="collection-title">
+<div id="page-title">
     <h1><?php echo metadata($collection, 'rich_title', array('no_escape' => true)); ?></h1>
 </div>
 

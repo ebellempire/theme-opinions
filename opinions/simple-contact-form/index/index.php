@@ -1,7 +1,7 @@
 <?php echo head(array('banner'=>array(html_escape(get_option('simple_contact_form_contact_page_title')),null,null))); ?>
 
 <!-- Title -->
-<div id="item-title">
+<div id="page-title">
     <h1><?php echo html_escape(get_option('simple_contact_form_contact_page_title')); ?></h1>
 </div>
 <div id="primary-content">

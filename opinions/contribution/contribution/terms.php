@@ -4,7 +4,7 @@ echo head($head);
 ?>
 
 <!-- Title -->
-<div id="contribution-title">
+<div id="page-title">
     <h1><?php echo $head['title']; ?></h1>
 </div>
 

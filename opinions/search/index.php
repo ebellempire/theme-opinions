@@ -1,6 +1,6 @@
 <?php
 $pageTitle = __('Site Search');
-echo head(array('title' => $pageTitle, 'bodyclass' => 'search','banner'=>array($pageTitle,__('%s result', $total_results))));
+echo head(array('title' => $pageTitle, 'bodyclass' => 'search','banner'=>array($pageTitle,__('%s results', $total_results))));
 $searchRecordTypes = get_search_record_types();
 ?>
 
@@ -11,8 +11,8 @@ $searchRecordTypes = get_search_record_types();
 <?php echo ob_sort_links('search');?>
 
 <!-- Title -->
-<div id="item-title">
-    <h1><?php echo $pageTitle; ?></h1>
+<div id="page-title">
+    <h1><?php echo __('Site Search Results'); ?></h1>
 </div>
 
 <div id="primary-content">

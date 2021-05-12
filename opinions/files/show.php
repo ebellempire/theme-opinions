@@ -10,7 +10,7 @@ $src=array_pop($result);
 <?php echo head(array('title' => $fileTitle, 'bodyclass' => 'files show primary-secondary','file'=>$file, 'banner'=>array($fileTitle,__('From %s record', ob_item_label()).': '.link_to_item(null, array(), 'show', $file->getItem()),$src))); ?>
 
 <!-- Title -->
-<div id="file-title">
+<div id="page-title">
     <h1><?php echo $fileTitle;?></h1>
     <p><?php echo '<span id="appears-in"><span>'
         .__('This file originally appears in %s record', ob_item_label()).

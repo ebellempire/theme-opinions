@@ -1,7 +1,7 @@
 <?php echo head(); ?>
 
 <!-- Title -->
-<div id="contribution-title">
+<div id="page-title">
     <h1><?php echo __("Thank you for contributing!"); ?></h1>
 </div>
 

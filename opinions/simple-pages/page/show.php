@@ -12,7 +12,7 @@ echo head(array(
 ));
 ?>
 <!-- Title -->
-<div id="item-title">
+<div id="page-title">
     <h1><?php echo metadata('simple_pages_page', 'title');?></h1>
 </div>
 <div id="primary-content">

@@ -6,10 +6,10 @@ if ($file = $img) {
     $img_path = null;
 }
 echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits summary',
-'banner'=>array(metadata('exhibit', 'title'),__('Summary'),$img_path))); ?>
+'banner'=>array(metadata('exhibit', 'title'),__('Exhibit Summary'),$img_path))); ?>
 
-<div id="exhibit-title">
-    <h1><?php echo metadata('exhibit', 'title'); ?></h1>
+<div id="page-title">
+    <h1><?php echo __('Exhibit Summary'); ?></h1>
 </div>
 
 <div id="primary-content">
@@ -35,11 +35,13 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
 
         ?>
     </div>
-    <nav id="exhibit-pages">
+    <nav id="exhibit-pages" style="background-image:url(<?php echo $img_path;?>)">
         <?php
         if ($pageTree = exhibit_builder_page_tree()) {
-            echo '<h4 class="exhibit-summary-link">'.exhibit_builder_link_to_exhibit($exhibit).'</h4>';
+            echo '<div class="inner">';
+            echo '<h3 class="exhibit-summary-link">'.__('Exhibit Summary').'</h3>';
             echo exhibit_builder_page_tree($exhibit, $exhibit_page);
+            echo '</div';
         }?>
     </nav>
 </div>

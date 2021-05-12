@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     // caption
     var caption = [];
     if ((title = link.getAttribute("data-title"))) {
-      caption.push(title);
+      caption.push("<strong>" + title + "</strong>");
     }
     if ((description = link.getAttribute("data-description"))) {
       caption.push(description);

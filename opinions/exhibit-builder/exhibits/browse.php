@@ -7,9 +7,13 @@ echo head(array('title' => $title, 'bodyclass' => 'exhibits browse','banner'=>ar
 ?>
 
 <?php echo ob_secondary_nav('exhibits');?>
-
+<?php echo item_search_filters(); ?>
 <?php echo ob_sort_links('exhibits');?>
 
+<!-- Title -->
+<div id="page-title">
+    <h1><?php echo $title; ?></h1>
+</div>
 <div id="primary-content">
     <?php
     if (count($exhibits) > 0) {

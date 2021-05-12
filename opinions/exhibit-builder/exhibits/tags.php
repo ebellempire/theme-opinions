@@ -7,6 +7,11 @@ echo head(array('title' => $title, 'bodyclass' => 'exhibits tags','banner'=>arra
 
 <?php echo ob_sort_links('exhibit-tags');?>
 
-<?php echo tag_cloud($tags, 'exhibits/browse'); ?>
-
+<!-- Title -->
+<div id="page-title">
+    <h1><?php echo $title; ?></h1>
+</div>
+<div id="primary-content">
+    <?php echo tag_cloud($tags, 'exhibits/browse'); ?>
+</div>
 <?php echo foot(); ?>

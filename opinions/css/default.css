@@ -307,7 +307,13 @@ menu-icons a {
 }
 #image-gallery .image img {
   width: 100%;
+  border: 1px solid #fff;
+  transition: box-shadow ease-in-out 0.15s;
 }
+#image-gallery .image img:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
+}
+
 #image-gallery .image {
   padding: 5px 10px 0 0;
   width: 33.3%;
@@ -536,6 +542,31 @@ nav#top-nav ul.navigation > li > ul > li:hover a {
   border: 1px solid #d94862;
 }
 
+/* UGH! When the container has the .duplicate-actives class, we rewrite the whole thing */
+.items-nav.navigation.secondary-nav.duplicate-actives .navigation li.active a {
+  background-color: transparent;
+  border-color: transparent;
+  color: #d94862;
+}
+.items-nav.navigation.secondary-nav.duplicate-actives
+  .navigation
+  li.active:hover
+  a {
+  background-color: #a6152f;
+  border-color: #a6152f;
+  color: #fff;
+}
+.items-nav.navigation.secondary-nav.duplicate-actives
+  .navigation
+  li.active
+  ~ li.active
+  a {
+  background-color: #d94862;
+  border-color: #d94862;
+  color: #fff;
+}
+/* end .duplicate-actives */
+
 .items-nav.navigation.secondary-nav ul {
   display: flex;
   flex-direction: row;
@@ -555,6 +586,7 @@ nav#top-nav ul.navigation > li > ul > li:hover a {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 /* 3 col */
 body.collections.show #secondary-content,
+body.search #primary-content,
 body.browse #primary-content {
   display: flex;
   flex-direction: row;
@@ -562,6 +594,7 @@ body.browse #primary-content {
   margin-right: -1em;
 }
 body.collections.show #secondary-content .hentry,
+body.search #primary-content .hentry,
 body.browse #primary-content .hentry {
   width: calc(33.3% - 1em);
   max-width: calc(50% - 1em);
@@ -577,6 +610,7 @@ body.browse #primary-content .hentry {
 }
 
 body.collections.show #secondary-content .hentry a,
+body.search #primary-content .hentry a,
 body.browse #primary-content .hentry a {
   margin: 0;
   padding: 10px;
@@ -590,12 +624,14 @@ body.browse #primary-content .hentry a {
   transition: all ease-in-out 0.25s;
 }
 body.collections.show #secondary-content .hentry a:hover,
+body.search #primary-content .hentry a:hover,
 body.browse #primary-content .hentry a:hover {
   color: #fff;
   background: rgba(0, 0, 0, 0.65);
   text-shadow: 5px 5px 0 #000;
 }
 body.collections.show #secondary-content .hentry a h2,
+body.search #primary-content .hentry a h2,
 body.browse #primary-content .hentry a h2 {
   position: absolute;
   padding: 5px 10px 10px 5px;
@@ -606,6 +642,7 @@ body.browse #primary-content .hentry a h2 {
   transition: all ease-in-out 0.25s;
 }
 body.collections.show #secondary-content .hentry a:hover h2,
+body.search #primary-content .hentry a:hover h2,
 body.browse #primary-content .hentry a:hover h2 {
   background: none;
 }
@@ -613,6 +650,7 @@ body.browse #primary-content .hentry a:hover h2 {
 /* 2 col */
 @media all and (max-width: 800px) {
   body.collections.show #secondary-content .hentry,
+  body.search #primary-content .hentry,
   body.browse #primary-content .hentry {
     width: calc(50% - 1em);
     max-width: 100%;
@@ -621,12 +659,14 @@ body.browse #primary-content .hentry a:hover h2 {
 /* 1 col */
 @media all and (max-width: 600px) {
   body.collections.show #secondary-content,
+  body.search #primary-content,
   body.browse #primary-content {
     flex-direction: column;
     margin-right: 0;
   }
 
   body.collections.show #secondary-content .hentry,
+  body.search #primary-content .hentry,
   body.browse #primary-content .hentry {
     width: 100%;
     max-width: none;
@@ -634,7 +674,23 @@ body.browse #primary-content .hentry a:hover h2 {
   }
 }
 
-body.collections.show #secondary-content {
+/* Search result type labels */
+body.search #primary-content .hentry span.type {
+  background: rgba(0, 0, 0, 0.5);
+  text-align: left;
+  color: #fff;
+  padding: 5px 1em 5px 1em;
+  text-shadow: none;
+  text-transform: uppercase;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+body.search #primary-content .hentry span.type.item {
+}
+body.search #primary-content .hentry span.type.collection {
+}
+body.search #primary-content .hentry span.type.exhibit {
 }
 
 /* Sort Links
@@ -698,12 +754,6 @@ body.exhibits.summary #banner-container.no-image,
   color: #ccc;
   margin: 0;
   transition: all ease-in-out 0.25s;
-}
-#banner-container h1:hover,
-#banner-container h2:hover {
-  color: #fff;
-  text-shadow: 5px 5px 0 #000;
-  cursor: default;
 }
 
 /* Header/Footer
@@ -769,6 +819,39 @@ article#content > nav {
 
 /* Metadata
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+body.items.show #collection a,
+body.items.show #item-tags a {
+  color: #fff;
+  text-decoration: none;
+  padding: 3px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 1px;
+  transition: background ease-in-out 0.15ms;
+}
+
+#item-tags a {
+  background: #d94862;
+}
+
+body.items.show #collection a {
+  background: #000;
+}
+
+body.items.show #collection a:hover,
+body.items.show #collection a:focus,
+body.items.show #collection a:active,
+#item-tags a:hover,
+#item-tags a:focus,
+#item-tags a:active {
+  background: #a6152f;
+}
+
+#item-tags .element-text {
+  color: transparent;
+}
+
 .element h3 {
   margin: 0;
 }
@@ -819,11 +902,24 @@ article#content > nav {
   padding: 2em;
   text-align: center;
   border: 1px solid #000;
+  background-position: center;
+  background-size: cover;
   border-radius: 10px;
+}
+#cta .inner {
+  padding: 10px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  background-color: rgba(256, 256, 256, 0.95);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 #cta .button {
   background: #000;
   border-color: #000;
+}
+#cta .button:hover {
+  background: #a6152f;
+  border-color: #a6152f;
 }
 #cta p {
   margin: 0 auto 2em;
@@ -932,12 +1028,13 @@ article form select {
 
 #search-filters ul li,
 #item-filters ul li {
-  background: #344973;
-  color: #fff;
+  border: 1px solid #344973;
+  color: #344973;
   padding: 5px 10px;
   margin: 5px 5px 5px 0;
   display: inline-block;
   border-radius: 5px;
+  font-size: 0.9em;
 }
 
 /* Tags
@@ -1018,17 +1115,29 @@ article form select {
   border: 1px solid #000;
   border-radius: 10px;
   padding: 2em;
+  background-position: center center;
+  background-size: cover;
+  background-color: #000;
+}
+
+#exhibit-pages .inner {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  box-shadow: 0 0 1em #000;
+  color: #fff;
 }
 
 #exhibit-pages a {
-  color: #000;
+  color: #fff;
 }
 
 #exhibit-pages ul {
   margin: 0;
   list-style-type: upper-roman;
   list-style-position: inside;
-  padding: 0;
+  padding: 0 0 5px 0;
 }
 
 body.exhibits.summary .exhibit-summary-link a {

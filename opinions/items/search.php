@@ -8,7 +8,7 @@ echo head(array('title' => $pageTitle,'bodyclass' => 'items advanced-search','ba
 <?php echo ob_sort_links('none');?>
 
 <!-- Title -->
-<div id="item-title">
+<div id="page-title">
     <h1><?php echo $pageTitle; ?></h1>
 </div>
 <div id="search-form-container">
