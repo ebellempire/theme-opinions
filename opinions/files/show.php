@@ -3,24 +3,22 @@ $fileTitle = metadata('file', 'display_title');
 if (substr($fileTitle, 0, 4) === "http") {
     $fileTitle = '['.__('Untitled').']';
 }
-$imgTag=record_image($file, 'fullsize');
-preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $imgTag, $result);
-$src=array_pop($result);
 ?>
-<?php echo head(array('title' => $fileTitle, 'bodyclass' => 'files show primary-secondary','file'=>$file, 'banner'=>array($fileTitle,__('From %s record', ob_item_label()).': '.link_to_item(null, array(), 'show', $file->getItem()),$src))); ?>
+<?php echo head(array('title' => $fileTitle, 'bodyclass' => 'files show primary-secondary','file'=>$file, 'banner'=>array($fileTitle,__('From %s record', ob_item_label()).': '.link_to_item(null, array(), 'show', $file->getItem())))); ?>
 
 <!-- Title -->
 <div id="page-title">
     <h1><?php echo $fileTitle;?></h1>
-    <p><?php echo '<span id="appears-in"><span>'
-        .__('This file originally appears in %s record', ob_item_label()).
-        ': </span>'.link_to_item(null, array(), 'show', $file->getItem())
-        .'</span>';?> </p>
 </div>
 
 <!-- Primary Content -->
 <div id="primary-content">
-
+    <div class="main-text">
+    <p><em><?php echo '<span id="appears-in"><span>'
+        .__('This file originally appears in %s record', ob_item_label()).
+        ': </span>'.link_to_item(null, array(), 'show', $file->getItem())
+        .'</span>';?> </em></p>
+    </div>
     <?php echo file_markup($file, array('imageSize' => 'fullsize')); ?>
     <div class="main-text">
         <?php echo '<div id="file-description">'.ob_dublin($file, 'Description').'</div>';?>

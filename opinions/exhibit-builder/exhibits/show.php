@@ -19,7 +19,7 @@ echo head(array(
     <div id="exhibit-blocks">
         <?php exhibit_builder_render_exhibit_page(); ?>
     </div>
-    <nav id="exhibit-pages" style="background-image:url(<?php echo $img_path;?>)">
+    <nav id="exhibit-pages">
         <?php
         // Put the (linked) summary page in the nav list
         if ($exhibit->use_summary_page) {
@@ -28,7 +28,7 @@ echo head(array(
             echo exhibit_builder_page_tree($exhibit, $exhibit_page);
             echo '</div>';
         } else {
-            echo exhibit_builder_page_tree($exhibit, $exhibit_page);
+           echo exhibit_builder_page_tree($exhibit, $exhibit_page);
         }?>
     </nav>
 </div>

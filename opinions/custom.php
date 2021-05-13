@@ -1,17 +1,5 @@
 <?php
 
-// override default CSS colors
-function opinions_configured_css($css=null)
-{
-    if ($primary=get_theme_option('primary_color')) {
-        $css .= 'a{color:'.$primary.';}.items-nav.navigation.secondary-nav .navigation li.active{border-bottom-color:'.$primary.';}.button.button-primary, button.button-primary, input[type="submit"].button-primary, input[type="reset"].button-primary, input[type="button"].button-primary{border-color:'.$primary.';background-color:'.$primary.';}.popular a,.popular a:visited,.v-popular a,.v-popular a:visited,.vv-popular a,.vv-popular a:visited {color:'.$primary.';}.vvv-popular a,.vvv-popular a:visited,.vvvv-popular a,.vvvv-popular a:visited {color:'.$primary.';}';
-    }
-    if ($secondary=get_theme_option('secondary_color')) {
-        $css .= 'a:hover{color:'.$secondary.';}.button.button-primary:hover, button.button-primary:hover, input[type="submit"].button-primary:hover, input[type="reset"].button-primary:hover, input[type="button"].button-primary:hover, .button.button-primary:focus, button.button-primary:focus, input[type="submit"].button-primary:focus, input[type="reset"].button-primary:focus, input[type="button"].button-primary:focus{border-color:'.$secondary.';background-color:'.$secondary.';}input[type="email"]:focus,input[type="number"]:focus,input[type="search"]:focus,input[type="text"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,textarea:focus,select:focus {border-color:'.$secondary.';}footer .icon:hover {fill:'.$secondary.';}.vvvvv-popular a,.vvvvv-popular a:visited,.vvvvvv-popular a,.vvvvvv-popular a:visited,.vvvvvvv-popular a,.vvvvvvv-popular a:visited,.vvvvvvvv-popular a,.vvvvvvvv-popular a:visited {color:'.$secondary.';}';
-    }
-    return $css ? '<style>'.$css.'</style>' : null;
-}
-
 // returns site title with optional logo replacement
 function opinions_site_title($html = null)
 {
@@ -641,22 +629,25 @@ function ob_item_pagination($item=null, $html=null)
 // takes an array of texts and returns a formatted string
 // e.g. ['Larry','Curly','Moe'] returns "Larry, Curly, & Moe"
 // adapted from Omeka:Item->getCitation()
-function ob_chicago_style($texts=array(), $text=null)
+function ob_chicago_style($texts=array(), $labels=array(), $text=null)
 {
     switch (count($texts)) {
         case 1:
             $text = $texts[0];
+            $label = isset($labels[0]) ? ' ('.$labels[0].')' : null;
             break;
         case 2:
             $text = __('%1$s and %2$s', $texts[0], $texts[1]);
+            $label = isset($labels[1]) ? ' ('.$labels[1].')' : null;
             break;
         case 3:
             $text = __('%1$s, %2$s, &amp; %3$s', $texts[0], $texts[1], $texts[2]);
+            $label = isset($labels[1]) ? ' ('.$labels[1].')' : null;
             break;
         default:
             $text = __('%s et al.', $texts[0]);
     }
-    return $text;
+    return $text.$label;
 }
 
 // return a standard byline for an item or collection
@@ -667,13 +658,6 @@ function ob_byline($record=null, $separator=' &middot; ', $creators=array(), $co
             $byline[] = '<span class="byline-creators"><span> '.ob_chicago_style($all_creators).'</span></span>';
         }
     }
-
-    if (get_theme_option('byline_contributor')) {
-        if ($all_contributors = metadata($record, array('Dublin Core', 'Contributor'), array('all'=>true))) {
-            $byline[] = '<span class="byline-contributors"><span> '.ob_chicago_style($all_contributors).'</span></span>';
-        }
-    }
-
     if (get_theme_option('byline_date')) {
         if ($dates = metadata($record, array('Dublin Core', 'Date'), array('all'=>true))) {
             if (count($dates) > 1) {
@@ -682,6 +666,11 @@ function ob_byline($record=null, $separator=' &middot; ', $creators=array(), $co
                 $date = $dates[0];
             }
             $byline[] = '<span class="byline-date"><span> '.$date.'</span></span>';
+        }
+    }
+    if (get_theme_option('byline_contributor')) {
+        if ($all_contributors = metadata($record, array('Dublin Core', 'Contributor'), array('all'=>true))) {
+            $byline[] = '<span class="byline-contributors"><span> '.ob_chicago_style($all_contributors, array(__('Contributor'),__('Contributors'))).'</span></span>';
         }
     }
 
