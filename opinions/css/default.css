@@ -116,7 +116,8 @@ a:hover {
 #wrap-inner,
 footer > div,
 #admin-bar ul,
-header form {
+header form,
+a.go-to-advanced-search {
   max-width: 1050px;
   margin-left: auto;
   margin-right: auto;
@@ -426,9 +427,19 @@ header .search-container #advanced-form {
   justify-content: space-between;
   flex-direction: row;
 }
+
+header .search-container #advanced-form fieldset#query-types br{
+  display: none;
+}
+header .search-container #advanced-form #record-types label{
+  display: inline;
+}
 @media all and (max-width: 700px) {
   header .search-container #advanced-form {
     flex-direction: column;
+  }
+  header .search-container #advanced-form fieldset#record-types{
+    margin: 1em 0;
   }
   .simple-search-inner button#submit_search {
     padding: 0 15px;
@@ -471,7 +482,7 @@ header .search-container.open {
   z-index: 1;
 }
 a.go-to-advanced-search {
-  margin-top: 10px;
+  margin: 10px auto 0;
   font-size: 0.9em;
   font-style: italic;
   display: block;
@@ -1086,20 +1097,36 @@ article form select {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 #search-filters ul,
 #item-filters ul {
-  padding: 0;
-  margin: 0 0 1em;
+  padding: 10px 0 0 0;
+  margin: 0 0;
   list-style-type: none;
 }
 
 #search-filters ul li,
 #item-filters ul li {
   border: 1px solid #344973;
-  color: #344973;
+  background: #344973;
+  color: #fff;
   padding: 5px 10px;
   margin: 5px 5px 5px 0;
   display: inline-block;
   border-radius: 5px;
   font-size: 0.9em;
+  
+}
+
+#item-filters .label,
+#search-filters .label{
+}
+.search-filter {
+  display: inline-block;
+}
+.search-filter.record-type-filter::after{
+  content: ' / ';
+  display: inline;
+}
+.search-filter.record-type-filter:last-child::after{
+  content:'';
 }
 
 /* Tags

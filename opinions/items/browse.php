@@ -4,12 +4,10 @@ $filters = item_search_filters();
 if ($filters) {
     $pageTitle = __('%s Results', ob_item_label());
 }
-echo head(array('title' => $pageTitle, 'bodyclass' => 'items browse', 'banner'=>array($pageTitle,__('%s total', $total_results))));
+echo head(array('title' => $pageTitle, 'bodyclass' => 'items browse', 'banner'=>array($pageTitle,__('%s total', $total_results),null,$filters)));
 ?>
 
 <?php echo ob_secondary_nav(); ?>
-
-<?php echo $filters; ?>
 
 <?php echo ob_sort_links();?>
 

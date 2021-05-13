@@ -1,13 +1,14 @@
 <?php
 $title = __('All Exhibits');
-if ($_GET["tags"]) {
+$filters = item_search_filters();
+if ($filters) {
     $title = __('Exhibit Results');
 }
-echo head(array('title' => $title, 'bodyclass' => 'exhibits browse','banner'=>array($title,__('%s total', $total_results))));
+echo head(array('title' => $title, 'bodyclass' => 'exhibits browse',
+'banner'=>array($title,__('%s total', $total_results),null,$filters)));
 ?>
 
 <?php echo ob_secondary_nav('exhibits');?>
-<?php echo item_search_filters(); ?>
 <?php echo ob_sort_links('exhibits');?>
 
 <!-- Title -->

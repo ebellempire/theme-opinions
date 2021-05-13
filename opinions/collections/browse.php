@@ -1,11 +1,13 @@
 <?php
 $pageTitle = __('All Collections');
-echo head(array('title' => $pageTitle, 'bodyclass' => 'collections browse', 'banner'=>array($pageTitle,__('%s total', $total_results))));
+$filters = item_search_filters();
+if ($filters) {
+    $pageTitle = __('Collection Results', ob_item_label());
+}
+echo head(array('title' => $pageTitle, 'bodyclass' => 'collections browse', 'banner'=>array($pageTitle,__('%s total', $total_results),null,$filters)));
 ?>
 
 <?php echo ob_secondary_nav('collections'); ?>
-
-<?php echo item_search_filters(); ?>
 
 <?php echo ob_sort_links('collections');?>
 

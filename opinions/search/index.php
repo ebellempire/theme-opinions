@@ -1,18 +1,16 @@
 <?php
-$pageTitle = __('Site Search');
-echo head(array('title' => $pageTitle, 'bodyclass' => 'search','banner'=>array($pageTitle,__('%s results', $total_results))));
+$pageTitle = __('Site Search Results');
+echo head(array('title' => $pageTitle, 'bodyclass' => 'search','banner'=>array($pageTitle,__('%s results', $total_results),null,search_filters())));
 $searchRecordTypes = get_search_record_types();
 ?>
 
 <?php echo ob_secondary_nav('search'); ?>
 
-<?php echo search_filters(); ?>
-
 <?php echo ob_sort_links('search');?>
 
 <!-- Title -->
 <div id="page-title">
-    <h1><?php echo __('Site Search Results'); ?></h1>
+    <h1><?php echo $pageTitle; ?></h1>
 </div>
 
 <div id="primary-content">

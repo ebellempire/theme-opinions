@@ -32,14 +32,17 @@ function opinions_banner_text($banner=null, $html=null)
     if (isset($banner)) {
         $title =  isset($banner[0]) ? $banner[0] : null;
         $byline = isset($banner[1]) ? $banner[1] : null;
+        $filters = isset($banner[3]) ? $banner[3] : null;
     } else {
         $title = option('site_title');
         $byline = get_theme_option('site_subheading') ? get_theme_option('site_subheading') : null;
+        $filters = null;
     }
     $html.='<h1 class="primary-headline">'.$title.'</h1>';
     if ($byline) {
         $html.='<h2 class="primary-subheadline">'.$byline.'</h2>';
     }
+    $html .= $filters;
     return $html;
 }
 
