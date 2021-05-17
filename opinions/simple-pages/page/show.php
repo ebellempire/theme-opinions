@@ -22,7 +22,8 @@ echo head(array(
         echo $this->shortcodes($text);
         ?>
     </div>
-    <?php echo ob_cta_block();?>
+    <!-- Side content -->
+    <div class="sidebar-content"></div>
 </div>
 
 <?php echo foot(); ?>

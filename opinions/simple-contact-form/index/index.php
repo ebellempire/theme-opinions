@@ -42,7 +42,7 @@
         </div>
     </div>
     <!-- Side content -->
-    <?php //echo ob_cta_block();?>
+   <div class="sidebar-content"></div>
 </div>
 
 <?php echo foot();

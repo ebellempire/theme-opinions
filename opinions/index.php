@@ -10,8 +10,6 @@
 <?php echo ob_recent_items_block();?>
 <!-- Homepage Text Block 2 -->
 <?php echo ob_homepage_text_block_2();?>
-<!-- Call to Action -->
-<?php echo ob_cta_block();?>
 <!-- Plugin Hooks -->
 <?php fire_plugin_hook('public_home', array('view' => $this)); ?>
 

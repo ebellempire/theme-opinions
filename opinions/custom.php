@@ -289,29 +289,67 @@ function ob_select_metadata($item=null, $dc_elements=array(), $itemtype_elements
     return $html;
 }
 
-// return a single featured item using the preferred label
-function ob_featured_item_block($showlink=true, $html=null)
+// return featured items using the preferred label
+function ob_featured_item_block($num=3, $showlink=true, $html=null)
 {
     if (get_theme_option('display_featured_item') !== '0') {
-        $html .= '<div id="featured-item">';
-        $html .= '<h2>'.ob_featured_item_label().'</h2>';
-        $html .= random_featured_items(1, true);
-        $html .= $showlink ? '<a href="/items/browse/?featured=1">'.__('View All %s', ob_featured_item_label('plural')).'</a>' : null;
-        $html .= '</div>';
+        
+        $featured = get_records('Item',
+            array(
+                'featured'=>true, 
+                'sort_field'=>"modified",
+                'sort_dir'=>"d",
+                'public'=>true,
+                'hasImage'=>true
+            ),$num);
+        if($featured){
+            $label = count($featured) > 1 ? ob_featured_item_label('plural') : ob_featured_item_label();
+            
+            $html .= '<section>';
+            $html .= '<div id="featured-item">';
+            $html .= '<h2>'.$label.'</h2>';
+            $html .= '<div class="results">';
+            foreach($featured as $item){
+                set_current_record('Item',$item);
+                $html .= ob_item_card($item);
+            }    
+            $html .= '</div>';
+            $html .= $showlink ? '<a class="button button-primary" href="/items/browse?featured=1">'.__('View All %s', ob_featured_item_label('plural')).'</a><a class="button button-secondary" href="/items/browse/">'.__('View All %s', ob_item_label('plural')).'</a>' : null;
+            $html .= '</div>';  
+            $html .= '</section>';        
+        }
     }
 
     return $html;
 }
 
 // return a single featured item using the preferred label
-function ob_featured_collection_block($showlink=true, $html=null)
+function ob_featured_collection_block($num=2, $showlink=true, $html=null)
 {
     if (get_theme_option('display_featured_collection') !== '0') {
-        $html .= '<div id="featured-collection">';
-        $html .= '<h2>'.__('Featured Collection').'</h2>';
-        $html .= random_featured_collection();
-        $html .= $showlink ? '<a href="/collections/browse/?featured=1">'.__('View All Featured Collections').'</a>' : null;
-        $html .= '</div>';
+
+        $featured = get_records('Collection',
+            array(
+                'featured'=>true, 
+                'sort_field'=>"modified",
+                'sort_dir'=>"d",
+                'public'=>true
+            ),$num);        
+        if($featured){
+            $label = count($featured) > 1 ? __('Featured Collections') : __('Featured Collection');
+            $html .= '<section>';
+            $html .= '<div id="featured-collection">';
+            $html .= '<h2>'.$label.'</h2>';
+            $html .= '<div class="results">';
+            foreach($featured as $collection){
+                set_current_record('Collection',$collection);
+                $html .= ob_collection_card($collection);
+            }
+            $html .= '</div>';
+            $html .= $showlink ? '<a class="button button-primary" href="/collections/browse?featured=1">'.__('View All Featured Collections').'</a><a class="button button-secondary" href="/collections/browse/">'.__('View All Collections').'</a>' : null;
+            $html .= '</div>';
+            $html .= '</section>';
+        }
     }
 
     return $html;
@@ -319,14 +357,30 @@ function ob_featured_collection_block($showlink=true, $html=null)
 
 // return a single recent item using the preferred label
 // @todo: add req. theme options!!!
-function ob_recent_items_block($showlink=true, $html=null)
+function ob_recent_items_block($num=5, $showlink=true, $html=null)
 {
-    if ($num = get_theme_option('homepage_recent_items')) {
-        $html .= '<div id="recent-item">';
-        $html .= '<h2>'.__('Recently Added %s', ob_item_label('plural')).'</h2>';
-        $html .= recent_items($num, true);
-        $html .= $showlink ? '<a href="/items/browse/">'.__('View All %s', ob_item_label('plural')).'</a>' : null;
-        $html .= '</div>';
+    if (get_theme_option('homepage_recent_items') !== '0') {
+        $recents = get_records('Item',
+            array(
+                'hasImage'=>true,
+                'sort_field'=>"added",
+                'sort_dir'=>"d",
+                'public'=>true
+            ),$num);
+        if($recents){
+            $html .= '<section>';
+            $html .= '<div id="recent-item">';
+            $html .= '<h2>'.__('Recently Added %s', ob_item_label('plural')).'</h2>';
+            $html .= '<div class="results">';
+            foreach($recents as $item){
+                set_current_record('Item',$item);
+                $html .= ob_item_card($item);
+            }
+            $html .= '</div>';
+            $html .= $showlink ? '<a class="button button-primary" href="/items/browse/">'.__('View All %s', ob_item_label('plural')).'</a>' : null;
+            $html .= '</div>';
+            $html .= '</section>';
+        }
     }
 
     return $html;
@@ -344,8 +398,8 @@ function ob_cta_block($html = null)
     $bgsrc = $bg ? '/files/theme_uploads/'.$bg : null;
 
     if ($url && $label) {
-        $html .= '<aside id="cta" style="background-image:url('.$bgsrc.');"><div class="inner">';
-        $html .= '<h2>'.$heading.'</h2>';
+        $html .= '<aside id="cta"><div class="inner">';
+        $html .= '<h3>'.$heading.'</h3>';
         $html .= '<p>'.$text.'</p>';
         $html .= '<a class="button button-primary" href="'.$url.'" '.$target.'>'.$label.'</a>';
         $html .= '</div></aside>';
@@ -364,11 +418,13 @@ function ob_homepage_text_block_1($heading=null, $img=null, $html = null)
         $img = get_theme_option('homepage_block_1_img');
     }
     if (get_theme_option('homepage_block_1_text')) {
+        $html .= '<section>';
         $html .= '<div class="home-text">';
         $html .= $heading ? '<h2>'.html_escape(trim($heading)).'</h2>' : null;
         $html .= $img ? '<img src="/files//theme_uploads/'.$img.'"/>' : null;
         $html .= '<p>'.get_theme_option('homepage_block_1_text').'</p>';
         $html .= '</div>';
+        $html .= '</section>';
     }
 
     return $html;
@@ -384,11 +440,13 @@ function ob_homepage_text_block_2($heading=null, $img = null, $html = null)
         $img = get_theme_option('homepage_block_2_img');
     }
     if (get_theme_option('homepage_block_2_text')) {
+        $html .= '<section>';
         $html .= '<div class="home-text">';
         $html .= $heading ? '<h2>'.html_escape(trim($heading)).'</h2>' : null;
         $html .= $img ? '<img src="/files//theme_uploads/'.$img.'"/>' : null;
         $html .= '<p>'.get_theme_option('homepage_block_2_text').'</p>';
         $html .= '</div>';
+        $html .= '</section>';
     }
 
     return $html;
