@@ -176,6 +176,9 @@ body#home #wrap-inner > section:last-child{
 body#home #wrap-inner > section .button{
   margin-right: 10px;
 }
+body#home .no-logo.no-image .shade {
+  visibility: hidden;
+}
 @media all and (max-width: 600px) {
   body#home #wrap-inner > section .results{
     padding-bottom: 1em;
@@ -391,7 +394,8 @@ p,
 }
 #site-title-logo h1 {
   margin: 0;
-  padding: 0;
+  padding: 5px 0.5em 0 0;
+  line-height: 1em;
   display: flex;
 }
 #site-title-logo h1 a {
@@ -781,7 +785,9 @@ body#home .results {
   transition: all ease-in-out 0.25s;
   border: 1px solid #fff;
 }
-.hentry a:hover {
+.hentry a:hover,
+.hentry a:active,
+.hentry a:focus {
   background: rgba(0, 0, 0, 0.65);
   text-shadow: 5px 5px 0 #000;
   border-color: #fff;
@@ -794,6 +800,7 @@ body#home .results {
   margin: 0;
   line-height: 1em;
   transition: all ease-in-out 0.25s;
+  max-width: calc(100% - 20px);
 }
 .hentry a:hover h2 {
   background: none;
@@ -870,10 +877,19 @@ body.search #primary-content .hentry span.type.exhibit {
 /* Banner
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 body.items.show #banner-container,
-body#home #banner-container,
 body.collections.show #banner-container,
 body.exhibits.summary #banner-container {
   padding-top: 50vh;
+}
+body#home #banner-container.image{
+  padding: calc(25vh - 2em) 0;
+}
+body#home #banner-container.image #banner-title{
+  text-align: center;
+}
+body#home #banner-container.image .shade{
+  padding: 3em;
+  width:100%;
 }
 #banner-container {
   display: block;
@@ -902,6 +918,8 @@ body.exhibits.summary #banner-container.no-image,
 #banner-container h2 {
   margin: 0;
 }
+
+
 
 /* Header/Footer
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -1189,10 +1207,10 @@ article form select {
   list-style: none;
   margin-left: 0;
   padding-left: 0;
-  line-height: 1.8em;
+  line-height: 2.4em;
 }
 .hTagcloud li {
-  display: inline;
+  display: inline-block;
   margin-right: 8px;
 }
 .popular {
@@ -1208,19 +1226,19 @@ article form select {
   font-size: 220%;
 }
 .vvvv-popular {
-  font-size: 260%;
+  font-size: 240%;
 }
 .vvvvv-popular {
-  font-size: 300%;
+  font-size: 280%;
 }
 .vvvvvv-popular {
-  font-size: 320%;
+  font-size: 300%;
 }
 .vvvvvvv-popular {
-  font-size: 340%;
+  font-size: 310%;
 }
 .vvvvvvvv-popular {
-  font-size: 360%;
+  font-size: 320%;
 }
 .popular a,
 .popular a:visited,
@@ -1228,26 +1246,25 @@ article form select {
 .v-popular a:visited,
 .vv-popular a,
 .vv-popular a:visited {
-  color: #a6152f;
-  opacity: 0.75;
+  color: #d94862;
 }
 .vvv-popular a,
 .vvv-popular a:visited,
 .vvvv-popular a,
 .vvvv-popular a:visited {
-  color: #a6152f;
-  opacity: 1;
+  color: #344973;
 }
 .vvvvv-popular a,
 .vvvvv-popular a:visited,
 .vvvvvv-popular a,
-.vvvvvv-popular a:visited,
+.vvvvvv-popular a:visited{
+  color: #a6152f;
+}
 .vvvvvvv-popular a,
 .vvvvvvv-popular a:visited,
 .vvvvvvvv-popular a,
 .vvvvvvvv-popular a:visited {
-  color: #d94862;
-  opacity: 1;
+  color: #1B305A;
   font-weight: bold;
 }
 

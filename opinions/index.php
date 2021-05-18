@@ -2,6 +2,8 @@
 
 <!-- Homepage Text Block 1 -->
 <?php echo ob_homepage_text_block_1();?>
+<!-- Featured Exhibit -->
+<?php echo opinions_featured_exhibit_block();?>
 <!--  Featured Item -->
 <?php echo ob_featured_item_block();?>
 <!--  Featured Collection -->

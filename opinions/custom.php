@@ -355,6 +355,36 @@ function ob_featured_collection_block($num=2, $showlink=true, $html=null)
     return $html;
 }
 
+function opinions_featured_exhibit_block($num=2, $showlink=true, $html=null){
+  if (get_theme_option('display_featured_exhibit') !== '0' && plugin_is_active('ExhibitBuilder')) {
+
+      $featured = get_records('Exhibit',
+          array(
+              'featured'=>true, 
+              'sort_field'=>"modified",
+              'sort_dir'=>"d",
+              'public'=>true
+          ),$num);        
+      if($featured){
+          $label = count($featured) > 1 ? __('Featured Exhibits') : __('Featured Exhibit');
+          $html .= '<section>';
+          $html .= '<div id="featured-exhibit">';
+          $html .= '<h2>'.$label.'</h2>';
+          $html .= '<div class="results">';
+          foreach($featured as $exhibit){
+              set_current_record('Exhibit',$exhibit);
+              $html .= ob_exhibit_card($exhibit);
+          }
+          $html .= '</div>';
+          $html .= $showlink ? '<a class="button button-primary" href="/exhibits?featured=1">'.__('View All Featured Exhibits').'</a><a class="button button-secondary" href="/exhibits/browse/">'.__('View All Exhibits').'</a>' : null;
+          $html .= '</div>';
+          $html .= '</section>';
+      }
+  }
+
+  return $html;  
+}
+
 // return a single recent item using the preferred label
 // @todo: add req. theme options!!!
 function ob_recent_items_block($num=5, $showlink=true, $html=null)
@@ -409,20 +439,14 @@ function ob_cta_block($html = null)
 }
 
 // return custom homepage text block #1
-function ob_homepage_text_block_1($heading=null, $img=null, $html = null)
+function ob_homepage_text_block_1($html = null)
 {
-    if (!$heading) {
-        $heading = get_theme_option('homepage_block_1_heading');
-    }
-    if (!$img) {
-        $img = get_theme_option('homepage_block_1_img');
-    }
+    $heading = get_theme_option('homepage_block_1_heading');
     if (get_theme_option('homepage_block_1_text')) {
         $html .= '<section>';
         $html .= '<div class="home-text">';
         $html .= $heading ? '<h2>'.html_escape(trim($heading)).'</h2>' : null;
-        $html .= $img ? '<img src="/files//theme_uploads/'.$img.'"/>' : null;
-        $html .= '<p>'.get_theme_option('homepage_block_1_text').'</p>';
+        $html .= '<p>'.get_view()->shortcodes(get_theme_option('homepage_block_1_text')).'</p>';
         $html .= '</div>';
         $html .= '</section>';
     }
@@ -431,20 +455,14 @@ function ob_homepage_text_block_1($heading=null, $img=null, $html = null)
 }
 
 // return custom homepage text block #2
-function ob_homepage_text_block_2($heading=null, $img = null, $html = null)
+function ob_homepage_text_block_2($html = null)
 {
-    if (!$heading) {
-        $heading = get_theme_option('homepage_block_2_heading');
-    }
-    if (!$img) {
-        $img = get_theme_option('homepage_block_2_img');
-    }
+    $heading = get_theme_option('homepage_block_2_heading');
     if (get_theme_option('homepage_block_2_text')) {
         $html .= '<section>';
         $html .= '<div class="home-text">';
         $html .= $heading ? '<h2>'.html_escape(trim($heading)).'</h2>' : null;
-        $html .= $img ? '<img src="/files//theme_uploads/'.$img.'"/>' : null;
-        $html .= '<p>'.get_theme_option('homepage_block_2_text').'</p>';
+        $html .= '<p>'.get_view()->shortcodes(get_theme_option('homepage_block_2_text')).'</p>';
         $html .= '</div>';
         $html .= '</section>';
     }
