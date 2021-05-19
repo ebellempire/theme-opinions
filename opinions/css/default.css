@@ -177,7 +177,7 @@ body#home #wrap-inner > section .button{
   margin-right: 10px;
 }
 body#home .no-logo.no-image .shade {
-  visibility: hidden;
+  display: none;
 }
 @media all and (max-width: 600px) {
   body#home #wrap-inner > section .results{
@@ -297,8 +297,7 @@ input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
   color: #333;
-  border-color: #888;
-  outline: 0;
+  border-color: #000;
 }
 .button.button-primary,
 button.button-primary,
@@ -370,8 +369,7 @@ input[type="button"].button-secondary:focus {
   height: auto;
   width: auto;
   padding: 0.5em;
-  border: 1px blue dashed;
-  color: #ff8000;
+  background: rgba(0,0,0,.95)
 }
 
 /* Main text */
@@ -630,18 +628,23 @@ nav#top-nav ul.navigation ul {
   margin-left: -10px;
   margin-top: 10px;
 }
-nav#top-nav ul.navigation li:hover a {
+nav#top-nav ul.navigation li:hover a,
+nav#top-nav ul.navigation li:focus a {
   color: #fff;
 }
-nav#top-nav ul.navigation li:hover {
+nav#top-nav ul.navigation li:hover,
+nav#top-nav ul.navigation li:focus {
   background: #fff;
   cursor: pointer;
 }
-nav#top-nav ul.navigation li:hover a {
+nav#top-nav ul.navigation li:hover a,
+nav#top-nav ul.navigation li:focus a {
   color: #000;
 }
 nav#top-nav ul.navigation li:hover > ul,
-nav#top-nav ul.navigation li ul:hover > li {
+nav#top-nav ul.navigation li ul:hover > li,
+nav#top-nav ul.navigation li:focus > ul,
+nav#top-nav ul.navigation li ul:focus > li  {
   display: block;
   z-index: 3;
 }
@@ -654,15 +657,20 @@ nav#top-nav ul.navigation > li > ul > li {
   padding: 10px;
   margin: 0;
   background: #555 !important;
+  border:1px solid #555;
+  border-collapse: collapse;
   transition: background linear 0.15s;
 }
 nav#top-nav ul.navigation > li > ul > li a {
   color: #fff !important;
 }
-nav#top-nav ul.navigation > li > ul > li:hover {
+nav#top-nav ul.navigation > li > ul > li:hover,
+nav#top-nav ul.navigation > li > ul > li:focus {
   background: #777 !important;
+  border:1px solid #fff;
 }
-nav#top-nav ul.navigation > li > ul > li:hover a {
+nav#top-nav ul.navigation > li > ul > li:hover a,
+nav#top-nav ul.navigation > li > ul > li:focus a {
 }
 
 /* Secondary Navigation
@@ -901,8 +909,8 @@ body#home #banner-container.image .shade{
 }
 @media all and (min-width: 1200px) {
   #banner-container.fun {
-    background-size: 200px, 1050px;
-    background-repeat: repeat, no-repeat;
+    background-size: 100%, 1050px, 100%, 200px;
+    background-repeat: repeat,no-repeat,repeat,repeat;
   }
 }
 
@@ -912,6 +920,8 @@ body.collections.show #banner-container.no-image,
 body.exhibits.summary #banner-container.no-image,
 #banner-container.no-image {
   padding-top: 0;
+  background-color: #fff;
+  background-image: none !important;
 }
 
 #banner-container h1,

@@ -973,7 +973,7 @@ function ob_search_record_card($searchText=null, $view=null, $html=null)
 // returns full metadata record with or without markup for interactive toggle state
 function ob_all_metadata($record =null, $alwaysShow=1, $output_formats=0, $html=null)
 {
-    $html .= '<div data-button-label="'.__('View Additional Details').'" data-button-label-hide="'.__('Hide Additional Details').'" id="full-metadata-record" class="'.($alwaysShow == 1 ? 'static' : 'interactive').'"><div class="meta-container-inner">';
+    $html .= '<div tabindex="0" role="button" data-button-label="'.__('View Additional Details').'" data-button-label-hide="'.__('Hide Additional Details').'" id="full-metadata-record" class="'.($alwaysShow == 1 ? 'static' : 'interactive').'"><div class="meta-container-inner">';
     $html .= all_element_texts($record, array('show_element_set_headings'=>false));
     $html .= $output_formats ? ob_output_formats($record) : null;
     $html .= '</div></div>';

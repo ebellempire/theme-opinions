@@ -80,6 +80,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     evnt.preventDefault();
     drawer.open();
   });
+  const toggleMeta = (e) =>{
+    if (e.target.children[0]) {
+      document
+        .querySelector("#full-metadata-record.interactive")
+        .classList.toggle("up");
+      e.target.children[0].classList.toggle("open");
+    }
+  }
   // METADATA TOGGLE (items & collections)
   var toggle = document.querySelector(
     "#full-metadata-record.interactive",
@@ -87,12 +95,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
   );
   if (typeof toggle != "undefined" && toggle) {
     toggle.addEventListener("click", (e) => {
-      if (e.target.children[0]) {
-        document
-          .querySelector("#full-metadata-record.interactive")
-          .classList.toggle("up");
-        e.target.children[0].classList.toggle("open");
-      }
+      toggleMeta(e)
     });
+    toggle.addEventListener("keydown", (e) => {
+      if (e instanceof KeyboardEvent && e.key !== 'Enter' && e.key !== ' ') {
+        return;
+      }
+      toggleMeta(e);
+    });    
   }
 });
