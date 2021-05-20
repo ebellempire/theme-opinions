@@ -116,7 +116,7 @@
         <?php echo opinions_nav_container(get_theme_option('add_home'));?>
         <?php echo ob_search_container();?>
         <div id="banner-container" class="<?php echo (opinions_banner_image(@$banner)) ? 'image' : 'no-image';?> <?php echo (get_theme_option('fun_banner') && @$banner[2] !== null) ? 'fun' : 'no-fun';?> <?php echo (get_theme_option('logo')) ? 'has-logo' : 'no-logo';?>" style="background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,.25),rgba(0,0,0,1)),url(<?php echo opinions_banner_image(@$banner);?>),linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.75)),url(<?php echo opinions_banner_image(@$banner);?>">
-            <div id="banner-title">
+            <div id="banner-title" class="<?php echo (opinions_banner_image(@$banner)) ? 'image' : 'no-image';?>">
                 <div class="shade">
                     <?php echo opinions_banner_text(@$banner);?></div>
             </div>

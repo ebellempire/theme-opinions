@@ -176,8 +176,10 @@ body#home #wrap-inner > section:last-child{
 body#home #wrap-inner > section .button{
   margin-right: 10px;
 }
-body#home .no-logo.no-image .shade {
+body#home .no-logo.no-image .shade,
+body#home .no-logo.no-image #banner-title {
   display: none;
+  height:0;
 }
 @media all and (max-width: 600px) {
   body#home #wrap-inner > section .results{
@@ -433,7 +435,7 @@ menu-icons a {
   flex-shrink: 1;
   max-width: 800px;
 }
-.columns.two .column:first-child > div {
+.columns.two .column:first-child > div > div{
   margin-right: 1em;
 }
 .columns.two .column:last-child {
@@ -781,6 +783,13 @@ body#home .results {
   position: relative;
 }
 
+.hentry:nth-child(odd){
+  background-color: #1B305A
+}
+.hentry:nth-child(even){
+  background-color: #a6152f
+}
+
 .hentry a {
   margin: 0;
   padding: 10px;
@@ -969,6 +978,13 @@ footer .icon:hover {
   padding: 1em 3em 1em 1em;
   margin-bottom: -1em;
 }
+
+#banner-title.no-image > div.shade{
+  width: 100%;
+}
+#banner-title.no-image > div.shade h2{
+}
+
 /* Content
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 article#content {

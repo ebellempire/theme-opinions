@@ -64,44 +64,61 @@ document.addEventListener("DOMContentLoaded", (event) => {
     false
   );
   // SIDE MENU FUNCTIONALITY
+  const menuButton = document.querySelector("a#menu-button");
   const nav = document.querySelector("#mmenu-contents");
   const theme = nav.getAttribute("data-theme");
   const title = nav.getAttribute("data-title");
   const sliding_option = nav.getAttribute("data-sliding-submenus");
   const slidingSubmenus = sliding_option > 0 ? true : false;
   const menu = new MmenuLight(nav);
+  const focusElement = document.querySelector(
+    "#mmenu-contents .navigation > li > a"
+  );
   const navigator = menu.navigation({
     theme: theme,
     slidingSubmenus: slidingSubmenus,
     title: title,
   });
   const drawer = menu.offcanvas({ position: "right" });
-  document.querySelector("a#menu-button").addEventListener("click", (evnt) => {
-    evnt.preventDefault();
-    drawer.open();
+  const closeMenuObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mu) => {
+      if (mu.type !== "attributes" && mu.attributeName !== "class") return;
+      menuButton.focus();
+      closeMenuObserver.disconnect();
+    });
   });
-  const toggleMeta = (e) =>{
+  menuButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    drawer.open();
+    setTimeout(() => {
+      focusElement.focus(); // keyboard focus: first menu li
+      closeMenuObserver.observe(document.querySelector("div.mm-ocd"), {
+        attributes: true,
+      }); // keyboard focus: menu button
+    }, 300);
+  });
+  // METADATA TOGGLE (items & collections)
+  const toggleMeta = (e) => {
     if (e.target.children[0]) {
       document
         .querySelector("#full-metadata-record.interactive")
         .classList.toggle("up");
       e.target.children[0].classList.toggle("open");
     }
-  }
-  // METADATA TOGGLE (items & collections)
+  };
   var toggle = document.querySelector(
     "#full-metadata-record.interactive",
     ":before"
   );
   if (typeof toggle != "undefined" && toggle) {
     toggle.addEventListener("click", (e) => {
-      toggleMeta(e)
+      toggleMeta(e);
     });
     toggle.addEventListener("keydown", (e) => {
-      if (e instanceof KeyboardEvent && e.key !== 'Enter' && e.key !== ' ') {
+      if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ") {
         return;
       }
       toggleMeta(e);
-    });    
+    });
   }
 });

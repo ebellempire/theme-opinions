@@ -97,7 +97,7 @@ function ob_img_markup($file, $size='fullsize', $index=0, $html=null)
         $readFile=getimagesize($file->getWebPath('fullsize'));
 
         $html .= '<div class="item-file image '.$size.'" id="image-'.$index.'">';
-        $html .= '<a href="'.$record_url.'" data-height="'.$readFile[0].'" data-width="'.$readFile[1].'" data-fullsize="'.$file->getWebPath('fullsize').'" data-title="'.strip_tags($title).'" data-description="'.strip_tags($description).'" data-id="'.$file->id.'" data-view-label="'.__('View File Details').'"><img alt="'.strip_tags(ob_dublin($file, 'Description', array('Title'))).'" src="'.$url.'"/></a>';
+        $html .= '<a href="'.$record_url.'" data-height="'.$readFile[0].'" data-width="'.$readFile[1].'" data-fullsize="'.$file->getWebPath('fullsize').'" data-title="'.strip_tags($title).'" data-description="'.strip_tags($description).'" data-id="'.$file->id.'" data-view-label="'.__('View File Details').'" title="'.__('View File').'"><img alt="'.strip_tags(ob_dublin($file, 'Description', array('Title'))).'" src="'.$url.'"/></a>';
         $html .= '</div>';
     }
     return $html;
@@ -973,7 +973,7 @@ function ob_search_record_card($searchText=null, $view=null, $html=null)
 // returns full metadata record with or without markup for interactive toggle state
 function ob_all_metadata($record =null, $alwaysShow=1, $output_formats=0, $html=null)
 {
-    $html .= '<div tabindex="0" role="button" data-button-label="'.__('View Additional Details').'" data-button-label-hide="'.__('Hide Additional Details').'" id="full-metadata-record" class="'.($alwaysShow == 1 ? 'static' : 'interactive').'"><div class="meta-container-inner">';
+    $html .= '<div tabindex="0" role="button" data-button-label="'.__('View Additional Details').'" aria-label="'.__('View Additional Details').'" data-button-label-hide="'.__('Hide Additional Details').'" id="full-metadata-record" class="'.($alwaysShow == 1 ? 'static' : 'interactive').'"><div class="meta-container-inner">';
     $html .= all_element_texts($record, array('show_element_set_headings'=>false));
     $html .= $output_formats ? ob_output_formats($record) : null;
     $html .= '</div></div>';
@@ -1042,43 +1042,43 @@ function ob_social_links($html = null)
     if ($url=get_theme_option('social_facebook')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_facebook_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_facebook_icon().'</a>';
         }
     }
     if ($url=get_theme_option('social_instagram')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_instagram_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_instagram_icon().'</a>';
         }
     }
     if ($url=get_theme_option('social_twitter')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_twitter_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_twitter_icon().'</a>';
         }
     }
     if ($url=get_theme_option('social_youtube')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_youtube_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_youtube_icon().'</a>';
         }
     }
     if ($url=get_theme_option('social_pinterest')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_pinterest_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_pinterest_icon().'</a>';
         }
     }
     if ($url=get_theme_option('social_tiktok')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_tiktok_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_tiktok_icon().'</a>';
         }
     }
     if ($url=get_theme_option('social_snapchat')) {
         $test = parse_url($url);
         if (isset($test['host'])) {
-            $html .= '<a href="'.$url.'" target="_blank">'.ob_svg_snapchat_icon().'</a>';
+            $html .= '<a rel="noreferrer noopener" href="'.$url.'" target="_blank">'.ob_svg_snapchat_icon().'</a>';
         }
     }
 
@@ -1179,14 +1179,14 @@ function ob_contact_info($html=null)
 function ob_site_info($output=array(), $html=null)
 {
     if (get_theme_option('omeka')) {
-        $output[] .= '<p class="site-info cms">'.__('Proudly powered by %s', '<a href="http://omeka.org">Omeka</a>');
+        $output[] .= '<p class="site-info cms">'.__('Proudly powered by %s', '<a rel="noopener" href="http://omeka.org">Omeka</a>');
     }
 
     if (get_theme_option('omeka_theme')) {
         $output[] = __(
             '%1s theme by %2s',
-            '<a href="'.Theme::getTheme(Theme::getCurrentThemeName('public'))->support_link.'" target="_blank">'.Theme::getTheme(Theme::getCurrentThemeName('public'))->title.'</a>',
-            '<a href="'.Theme::getTheme(Theme::getCurrentThemeName('public'))->website.'" target="_blank">'.Theme::getTheme(Theme::getCurrentThemeName('public'))->author.'</a>'
+            '<a rel="noopener" href="'.Theme::getTheme(Theme::getCurrentThemeName('public'))->support_link.'" target="_blank">'.Theme::getTheme(Theme::getCurrentThemeName('public'))->title.'</a>',
+            '<a rel="noopener" href="'.Theme::getTheme(Theme::getCurrentThemeName('public'))->website.'" target="_blank">'.Theme::getTheme(Theme::getCurrentThemeName('public'))->author.'</a>'
         ).'</p>';
     }
 
